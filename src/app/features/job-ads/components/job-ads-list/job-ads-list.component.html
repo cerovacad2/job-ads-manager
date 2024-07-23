@@ -1,7 +1,7 @@
 @if(jobAds.length) {
   <div class="job-ads-list-container">
-    @for(job of jobAds; track job.id) {
-      <div>{{job.title}}</div>
+    @for(jobAd of jobAds; track jobAd.id) {
+      <app-job-ad-item [jobAd]="jobAd"></app-job-ad-item>
     }
   </div>
 } @else {
