@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { JobAd } from '../models/job.model';
+import { JobAd } from '../models/job-ad.model';
 import { jobAdsActions } from './job-ads.actions';
 
 export interface JobState {
@@ -32,9 +32,9 @@ export const jobsFeature = createFeature({
       ...state,
       jobAdsLoading: true,
     })),
-    on(jobAdsActions.loadJobAdsSuccess, (state, { jobs }) => ({
+    on(jobAdsActions.loadJobAdsSuccess, (state, { jobAds }) => ({
       ...state,
-      jobAds: jobs,
+      jobAds,
       jobAdsLoading: false,
     })),
     on(jobAdsActions.loadJobAdsFailure, (state, { error }) => ({
@@ -46,9 +46,9 @@ export const jobsFeature = createFeature({
       ...state,
       jobAdCreateLoading: true,
     })),
-    on(jobAdsActions.createJobAdSuccess, (state, { job }) => ({
+    on(jobAdsActions.createJobAdSuccess, (state, { jobAd }) => ({
       ...state,
-      jobAds: [...state.jobAds, job],
+      jobAds: [...state.jobAds, jobAd],
       jobAdCreateLoading: false,
     })),
     on(jobAdsActions.createJobAdFailure, (state, { error }) => ({
@@ -63,9 +63,9 @@ export const jobsFeature = createFeature({
     on(
       jobAdsActions.updateJobAdSuccess,
       jobAdsActions.updateJobAdStatusSuccess,
-      (state, { job }) => ({
+      (state, { jobAd }) => ({
         ...state,
-        jobAds: state.jobAds.map((j) => (j.id === job.id ? job : j)),
+        jobAds: state.jobAds.map((j) => (j.id === jobAd.id ? jobAd : j)),
         jobAdUpdateLoading: false,
       })
     ),

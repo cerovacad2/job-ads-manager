@@ -3,7 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { delay, map, Observable } from 'rxjs';
 import { environment } from '../../../../../environment/environment';
 import { generateRandomId } from '../../../shared/utils/utils';
-import { JobAd, JobAdDto, JobAdStatus } from '../models/job.model';
+import { JobAd, JobAdDto, JobAdStatus } from '../models/job-ad.model';
+import { JobAdFormValues } from '../components/job-ad-form/job-ad-form.component';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,10 @@ export class JobAdsService {
     return this.http.get<JobAdDto[]>(this.apiUrl).pipe(delay(1000));
   }
 
-  createJob(data: JobAd): Observable<JobAd> {
+  createJob(jobAd: JobAdFormValues): Observable<JobAd> {
     return this.http
       .post<JobAdDto>(this.apiUrl, {
-        ...data,
+        ...jobAd,
         id: generateRandomId(),
         status: 'draft',
         createdAt: new Date().toISOString(),
@@ -29,28 +30,28 @@ export class JobAdsService {
       .pipe(delay(1000));
   }
 
-  updateJob(data: { jobId: string; job: JobAd }): Observable<JobAdDto> {
+  updateJob(data: { jobAdId: string; jobAd: JobAdFormValues }): Observable<JobAdDto> {
     return this.http
-      .patch<JobAdDto>(`${this.apiUrl}/${data.jobId}`, {
-        ...data.job,
+      .patch<JobAdDto>(`${this.apiUrl}/${data.jobAdId}`, {
+        ...data.jobAd,
         updatedAt: new Date().toISOString(),
       })
       .pipe(delay(1000));
   }
 
   updateJobStatus(data: {
-    jobId: string;
+    jobAdId: string;
     status: JobAdStatus;
   }): Observable<JobAdDto> {
-    return this.http.patch<JobAdDto>(`${this.apiUrl}/${data.jobId}`, {
+    return this.http.patch<JobAdDto>(`${this.apiUrl}/${data.jobAdId}`, {
       status: data.status,
       updatedAt: new Date().toISOString(),
     });
   }
 
-  deleteJob(data: { jobId: string }): Observable<string> {
+  deleteJob(data: { jobAdId: string }): Observable<string> {
     return this.http
-      .delete<JobAdDto>(`${this.apiUrl}/${data.jobId}`)
-      .pipe(map((job) => job.id));
+      .delete<JobAdDto>(`${this.apiUrl}/${data.jobAdId}`)
+      .pipe(map((jobAd) => jobAd.id));
   }
 }

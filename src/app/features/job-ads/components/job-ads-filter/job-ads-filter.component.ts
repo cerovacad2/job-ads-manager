@@ -19,7 +19,7 @@ import {
   startWith,
   tap,
 } from 'rxjs';
-import { JobAdStatus } from '../../models/job.model';
+import { JobAdStatus } from '../../models/job-ad.model';
 
 export interface JobAdsFilter {
   search: string;

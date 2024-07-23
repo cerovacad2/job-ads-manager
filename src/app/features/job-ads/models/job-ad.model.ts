@@ -12,5 +12,4 @@ export interface JobAdDto extends JobAd {
   _embedded: unknown;
 }
 
-
 export type JobAdStatus = 'draft' | 'published' | 'archived';

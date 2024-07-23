@@ -15,7 +15,7 @@ export class JobsEffects {
       ofType(jobAdsActions.loadJobAds),
       switchMap(() =>
         this.jobAdsService.getJobs().pipe(
-          map((jobs) => jobAdsActions.loadJobAdsSuccess({ jobs })),
+          map((jobAds) => jobAdsActions.loadJobAdsSuccess({ jobAds })),
           catchError((error) =>
             of(jobAdsActions.loadJobAdsFailure({ error: error.message }))
           )
@@ -27,10 +27,10 @@ export class JobsEffects {
   createJob$ = createEffect(() =>
     this.actions$.pipe(
       ofType(jobAdsActions.createJobAd),
-      switchMap(({ job }) =>
-        this.jobAdsService.createJob(job).pipe(
+      switchMap(({ jobAd }) =>
+        this.jobAdsService.createJob(jobAd).pipe(
           map((createdJob) =>
-            jobAdsActions.createJobAdSuccess({ job: createdJob })
+            jobAdsActions.createJobAdSuccess({ jobAd: createdJob })
           ),
           catchError((error) =>
             of(jobAdsActions.createJobAdFailure({ error: error.message }))
@@ -43,10 +43,10 @@ export class JobsEffects {
   updateJob$ = createEffect(() =>
     this.actions$.pipe(
       ofType(jobAdsActions.updateJobAd),
-      switchMap(({ jobId, job }) =>
-        this.jobAdsService.updateJob({ jobId, job }).pipe(
+      switchMap(({ jobAdId, jobAd }) =>
+        this.jobAdsService.updateJob({ jobAdId, jobAd }).pipe(
           map((updatedJob) =>
-            jobAdsActions.updateJobAdSuccess({ job: updatedJob })
+            jobAdsActions.updateJobAdSuccess({ jobAd: updatedJob })
           ),
           catchError((error) =>
             of(jobAdsActions.updateJobAdFailure({ error: error.message }))
@@ -59,10 +59,10 @@ export class JobsEffects {
   updateJobStatus$ = createEffect(() =>
     this.actions$.pipe(
       ofType(jobAdsActions.updateJobAdStatus),
-      switchMap(({ jobId, status }) =>
-        this.jobAdsService.updateJobStatus({ jobId, status }).pipe(
+      switchMap(({ jobAdId, status }) =>
+        this.jobAdsService.updateJobStatus({ jobAdId, status }).pipe(
           map((updatedJob) =>
-            jobAdsActions.updateJobAdStatusSuccess({ job: updatedJob })
+            jobAdsActions.updateJobAdStatusSuccess({ jobAd: updatedJob })
           ),
           catchError((error) =>
             of(jobAdsActions.updateJobAdStatusFailure({ error: error.message }))
@@ -75,9 +75,9 @@ export class JobsEffects {
   deleteJob$ = createEffect(() =>
     this.actions$.pipe(
       ofType(jobAdsActions.deleteJobAd),
-      switchMap(({ jobId }) =>
-        this.jobAdsService.deleteJob({ jobId }).pipe(
-          map(() => jobAdsActions.deleteJobAdSuccess({ jobId })),
+      switchMap(({ jobAdId }) =>
+        this.jobAdsService.deleteJob({ jobAdId }).pipe(
+          map(() => jobAdsActions.deleteJobAdSuccess({ jobId: jobAdId })),
           catchError((error) =>
             of(jobAdsActions.deleteJobAdFailure({ error: error.message }))
           )

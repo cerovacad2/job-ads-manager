@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { JobAd } from '../../models/job.model';
+import { JobAd } from '../../models/job-ad.model';
 
 @Component({
   selector: 'app-job-ads-list',

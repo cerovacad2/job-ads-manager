@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, Observable, switchMap, tap } from 'rxjs';
-import { JobAd } from '../../models/job.model';
+import { JobAd } from '../../models/job-ad.model';
 import { jobAdsActions } from '../../store/job-ads.actions';
 import { selectJobAds, selectJobAdsLoading } from '../../store/job-ads.reducer';
 import { JobAdsFilter } from '../job-ads-filter/job-ads-filter.component';
