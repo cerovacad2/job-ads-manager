@@ -1,6 +1,7 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { JobAd } from '../models/job-ad.model';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
+import { JobAdViewModel } from '../models/job-ad.view-model';
 import { jobAdsActions } from './job-ads.actions';
+import { JobAd } from '../models/job-ad.model';
 
 export interface JobState {
   jobAds: JobAd[];
@@ -65,7 +66,9 @@ export const jobsFeature = createFeature({
       jobAdsActions.updateJobAdStatusSuccess,
       (state, { jobAd }) => ({
         ...state,
-        jobAds: state.jobAds.map((j) => (j.id === jobAd.id ? jobAd : j)),
+        jobAds: state.jobAds.map((j) =>
+          j.id === jobAd.id ? jobAd : j
+        ),
         jobAdUpdateLoading: false,
       })
     ),
@@ -107,3 +110,8 @@ export const {
   selectJobAdDeleteLoading,
   selectJobAdDeleteError,
 } = jobsFeature;
+
+export const selectJobAdViewModels = createSelector(
+  selectJobAds,
+  (jobAds: JobAd[]): JobAdViewModel[] => jobAds.map(jobAd => new JobAdViewModel(jobAd))
+);

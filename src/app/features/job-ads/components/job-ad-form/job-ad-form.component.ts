@@ -20,8 +20,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { EMPTY, map, Observable, startWith, tap } from 'rxjs';
 import { ProgressBarComponent } from '../../../../shared/components/progress-bar/progress-bar.component';
-import { JobAd } from '../../models/job-ad.model';
 import { JobAdValidatorsService } from '../../services/job-ad-validators/job-ad-validators.service';
+import { JobAdViewModel } from '../../models/job-ad.view-model';
 
 export interface JobAdFormValues {
   title: string;
@@ -54,7 +54,7 @@ export class JobAdFormComponent {
   private jobAdValidators = inject(JobAdValidatorsService);
 
   @Input() loading$: Observable<boolean> = EMPTY;
-  @Input() initialValues?: JobAd;
+  @Input() initialValues?: JobAdViewModel;
 
   @Output() submitted = new EventEmitter<JobAdFormValues>();
   @Output() canceled = new EventEmitter();

@@ -3,8 +3,7 @@ import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { InvoiceViewModel } from './invoice-item.view-model';
-import { Invoice } from '../../models/invoice.model';
+import { InvoiceViewModel } from '../../models/invoice.view-model';
 
 @Component({
   selector: 'app-invoice-item',
@@ -20,10 +19,5 @@ import { Invoice } from '../../models/invoice.model';
   styleUrl: './invoice-item.component.sass',
 })
 export class InvoiceItemComponent {
-  invoiceVm!: InvoiceViewModel;
-
-  @Input({ required: true })
-  set invoice(val: Invoice) {
-    this.invoiceVm = new InvoiceViewModel(val);
-  }
+  @Input({ required: true }) invoice!: InvoiceViewModel;
 }

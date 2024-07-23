@@ -2,21 +2,24 @@ import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, Observable, switchMap, tap } from 'rxjs';
-import { JobAd } from '../../models/job-ad.model';
+import { JobAdViewModel } from '../../models/job-ad.view-model';
 import { jobAdsActions } from '../../store/job-ads.actions';
-import { selectJobAds, selectJobAdsLoading } from '../../store/job-ads.reducer';
+import {
+  selectJobAdsLoading,
+  selectJobAdViewModels,
+} from '../../store/job-ads.reducer';
 import { JobAdsFilter } from '../job-ads-filter/job-ads-filter.component';
 
 interface JobAdsContainerState {
   filterCriteria: JobAdsFilter;
-  jobs: JobAd[];
+  jobs: JobAdViewModel[];
 }
 
 @Injectable()
 export class JobAdContainerStore extends ComponentStore<JobAdsContainerState> {
   private store = inject(Store);
 
-  private readonly filteredJobs$: Observable<JobAd[]> = combineLatest([
+  private readonly filteredJobs$: Observable<JobAdViewModel[]> = combineLatest([
     this.select((state) => state.jobs),
     this.select((state) => state.filterCriteria),
   ]).pipe(map(([jobs, criteria]) => this.applyFilter(jobs, criteria)));
@@ -38,9 +41,11 @@ export class JobAdContainerStore extends ComponentStore<JobAdsContainerState> {
   readonly listenToJobsGlobalStore = this.effect<void>((trigger$) =>
     trigger$.pipe(
       switchMap(() =>
-        this.store.select(selectJobAds).pipe(
+        this.store.select(selectJobAdViewModels).pipe(
           tap((jobs) => {
-            this.patchState({ jobs });
+            this.patchState({
+              jobs: jobs.map((job) => job),
+            });
           })
         )
       )
@@ -58,7 +63,10 @@ export class JobAdContainerStore extends ComponentStore<JobAdsContainerState> {
     })
   );
 
-  private applyFilter(jobs: JobAd[], filterCriteria: JobAdsFilter): JobAd[] {
+  private applyFilter(
+    jobs: JobAdViewModel[],
+    filterCriteria: JobAdsFilter
+  ): JobAdViewModel[] {
     const { search, status } = filterCriteria;
     const lowerSearch = search.toLowerCase();
     return jobs.filter((job) => {

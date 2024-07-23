@@ -1,4 +1,5 @@
-import { Invoice } from '../../models/invoice.model';
+import { Invoice } from "./invoice.model";
+
 export class InvoiceViewModel {
   id: string;
   jobAdId: string;

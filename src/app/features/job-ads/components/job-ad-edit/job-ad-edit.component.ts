@@ -7,7 +7,7 @@ import {
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs';
-import { JobAd } from '../../models/job-ad.model';
+import { JobAdViewModel } from '../../models/job-ad.view-model';
 import { jobAdsActions } from '../../store/job-ads.actions';
 import { selectJobAdUpdateLoading } from '../../store/job-ads.reducer';
 import {
@@ -27,7 +27,7 @@ export class JobAdEditComponent {
   private bottomSheet = inject(MatBottomSheet);
   private store = inject(Store);
   private actions$ = inject(Actions);
-  public data: JobAd = inject(MAT_BOTTOM_SHEET_DATA);
+  public data: JobAdViewModel = inject(MAT_BOTTOM_SHEET_DATA);
 
   readonly editJobLoading$ = this.store.select(selectJobAdUpdateLoading);
 

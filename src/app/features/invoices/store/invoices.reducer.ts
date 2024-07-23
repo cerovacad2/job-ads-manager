@@ -1,6 +1,7 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { Invoice } from '../models/invoice.model';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
+import { InvoiceViewModel } from '../models/invoice.view-model';
 import { invoicesActions } from './invoices.actions';
+import { Invoice } from '../models/invoice.model';
 
 export interface InvoiceState {
   invoicesLoading: boolean;
@@ -79,3 +80,8 @@ export const {
   selectInvoiceDeleting,
   selectError,
 } = invoicesFeature;
+
+export const selectInvoiceViewModels = createSelector(
+  selectInvoices,
+  (invoices: Invoice[]): InvoiceViewModel[] => invoices.map(invoice => new InvoiceViewModel(invoice))
+);

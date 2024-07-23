@@ -6,8 +6,8 @@ import { ProgressBarComponent } from '../../../../shared/components/progress-bar
 
 import { invoicesActions } from '../../store/invoices.actions';
 import {
-  selectInvoices,
   selectInvoicesLoading,
+  selectInvoiceViewModels,
 } from '../../store/invoices.reducer';
 import { InvoiceItemComponent } from '../invoice-item/invoice-item.component';
 
@@ -22,7 +22,7 @@ export class InvoicesContainerComponent implements OnInit {
   private store = inject(Store);
 
   readonly vm$ = combineLatest({
-    invoices: this.store.select(selectInvoices),
+    invoices: this.store.select(selectInvoiceViewModels),
     invoicesLoading: this.store.select(selectInvoicesLoading),
   });
 

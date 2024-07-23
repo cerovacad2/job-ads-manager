@@ -1,6 +1,6 @@
-import { JobAd, JobAdStatus } from '../../models/job-ad.model';
+import { JobAd, JobAdStatus } from './job-ad.model';
 
-export class JobAdItemViewModel {
+export class JobAdViewModel {
   constructor(private jobAd: JobAd) {}
 
   get id(): string {
