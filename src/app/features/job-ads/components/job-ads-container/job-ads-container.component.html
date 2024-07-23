@@ -7,7 +7,11 @@
     (filterChanged)="onFilterChanged($event)"
   ></app-job-ads-filter>
 
-  <app-progress-bar></app-progress-bar>
-
-  <app-job-ads-list [jobAds]="jobAds"></app-job-ads-list>
+  @if (vm$ | async; as vm) { 
+    @if (vm.JobAdsloading) {
+      <app-progress-bar></app-progress-bar>
+    } @else {
+      <app-job-ads-list [jobAds]="vm.filteredJobAds"></app-job-ads-list>
+    } 
+  }
 </div>

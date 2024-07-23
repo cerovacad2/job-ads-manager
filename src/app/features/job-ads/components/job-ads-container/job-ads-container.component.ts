@@ -1,13 +1,13 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ProgressBarComponent } from '../../../../shared/components/progress-bar/progress-bar.component';
-import { JobAd } from '../../models/job.model';
-import { JobAdsService } from '../../services/job-ads-service.service';
 import {
   JobAdsFilter,
   JobAdsFilterComponent,
 } from '../job-ads-filter/job-ads-filter.component';
 import { JobAdsListComponent } from '../job-ads-list/job-ads-list.component';
+import { JobAdContainerStore } from './job-ads-continer.store';
 @Component({
   selector: 'app-job-ads-container',
   standalone: true,
@@ -16,24 +16,24 @@ import { JobAdsListComponent } from '../job-ads-list/job-ads-list.component';
     ProgressBarComponent,
     MatButtonModule,
     JobAdsListComponent,
+    AsyncPipe,
   ],
   templateUrl: './job-ads-container.component.html',
   styleUrl: './job-ads-container.component.scss',
+  providers: [JobAdContainerStore],
 })
 export class JobAdsContainerComponent implements OnInit {
-  private jobAdsService = inject(JobAdsService);
+  private componentStore = inject(JobAdContainerStore);
 
-  jobAds: JobAd[] = [];
+  readonly vm$ = this.componentStore.vm$;
 
   ngOnInit(): void {
-    this.jobAdsService.getJobs().subscribe((ads) => {
-      this.jobAds = ads;
-    });
+    this.componentStore.loadJobs();
+  }
+
+  onFilterChanged(filters: JobAdsFilter) {
+    this.componentStore.setFilterCriteria(filters);
   }
 
   onCreate() {}
-
-  onFilterChanged(filter: JobAdsFilter) {
-    console.log(filter);
-  }
 }
