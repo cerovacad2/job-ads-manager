@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { ProgressBarComponent } from '../../../../shared/components/progress-bar/progress-bar.component';
 
 import { invoicesActions } from '../../store/invoices.actions';
@@ -10,7 +10,6 @@ import {
   selectInvoicesLoading,
 } from '../../store/invoices.reducer';
 import { InvoiceItemComponent } from '../invoice-item/invoice-item.component';
-import { InvoiceViewModel } from './invoice.view-model';
 
 @Component({
   selector: 'app-invoices-container',
@@ -23,13 +22,7 @@ export class InvoicesContainerComponent implements OnInit {
   private store = inject(Store);
 
   readonly vm$ = combineLatest({
-    invoices: this.store
-      .select(selectInvoices)
-      .pipe(
-        map((invoices) =>
-          invoices.map((invoice) => new InvoiceViewModel(invoice))
-        )
-      ),
+    invoices: this.store.select(selectInvoices),
     invoicesLoading: this.store.select(selectInvoicesLoading),
   });
 

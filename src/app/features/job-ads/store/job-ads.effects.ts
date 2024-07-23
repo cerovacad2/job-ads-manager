@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
+import { invoicesActions } from '../../invoices/store/invoices.actions';
 import { JobAdsService } from '../services/job-ads/job-ads-service.service';
 import { jobAdsActions } from './job-ads.actions';
 
@@ -83,6 +84,24 @@ export class JobsEffects {
           )
         )
       )
+    )
+  );
+
+  createInvoiceOnJobPublish$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(jobAdsActions.updateJobAdStatusSuccess),
+      map(({ jobAd }) => jobAd),
+      filter((jobAd) => jobAd.status === 'published'),
+      map((job) =>
+        invoicesActions.createInvoice({ invoice: { jobAdId: job.id } })
+      )
+    )
+  );
+
+  deleteInvoiceOnJobDelete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(jobAdsActions.deleteJobAdSuccess),
+      map(({ jobId }) => invoicesActions.deleteInvoiceByJobId({ jobId }))
     )
   );
 }
