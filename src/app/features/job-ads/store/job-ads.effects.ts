@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, filter, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import { SnackbarService } from '../../../core/services/snackbar/snackbar.service';
 import { invoicesActions } from '../../invoices/store/invoices.actions';
 import { JobAdsService } from '../services/job-ads/job-ads-service.service';
 import { jobAdsActions } from './job-ads.actions';
@@ -10,6 +11,7 @@ import { jobAdsActions } from './job-ads.actions';
 export class JobsEffects {
   private actions$ = inject(Actions);
   private jobAdsService = inject(JobAdsService);
+  private snackbarService = inject(SnackbarService);
 
   loadJobs$ = createEffect(() =>
     this.actions$.pipe(
@@ -103,5 +105,23 @@ export class JobsEffects {
       ofType(jobAdsActions.deleteJobAdSuccess),
       map(({ jobId }) => invoicesActions.deleteInvoiceByJobId({ jobId }))
     )
+  );
+
+  handleErrors$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          jobAdsActions.loadJobAdsFailure,
+          jobAdsActions.createJobAdFailure,
+          jobAdsActions.updateJobAdFailure,
+          jobAdsActions.updateJobAdStatusFailure,
+          jobAdsActions.deleteJobAdFailure
+        ),
+        tap(({ error }) => {
+          const errorMessage = error.message || 'Oops, something went wrong';
+          this.snackbarService.showError(errorMessage);
+        })
+      ),
+    { dispatch: false }
   );
 }

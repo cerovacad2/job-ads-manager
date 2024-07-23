@@ -7,8 +7,10 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { SnackbarService } from '../../../core/services/snackbar/snackbar.service';
 import { InvoiceService } from '../services/invoice/invoice.service';
 import { invoicesActions } from './invoices.actions';
 import { selectInvoices } from './invoices.reducer';
@@ -18,6 +20,7 @@ export class InvoicesEffects {
   private actions$ = inject(Actions);
   private invoiceService = inject(InvoiceService);
   private store = inject(Store);
+  private snackbarService = inject(SnackbarService);
 
   loadInvoices$ = createEffect(() =>
     this.actions$.pipe(
@@ -72,13 +75,26 @@ export class InvoicesEffects {
         if (invoice) {
           return of(invoicesActions.deleteInvoice({ invoiceId: invoice.id }));
         } else {
-          return of(
-            invoicesActions.deleteInvoiceByJobIdFailure({
-              error: 'Invoice not found',
-            })
-          );
+          return of();
         }
       })
     )
+  );
+
+  handleErrors$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          invoicesActions.loadInvoicesFailure,
+          invoicesActions.createInvoiceFailure,
+          invoicesActions.deleteInvoiceFailure,
+          invoicesActions.deleteInvoiceByJobIdFailure
+        ),
+        tap(({ error }) => {
+          const errorMessage = error.message || 'Oops, something went wrong';
+          this.snackbarService.showError(errorMessage);
+        })
+      ),
+    { dispatch: false }
   );
 }
