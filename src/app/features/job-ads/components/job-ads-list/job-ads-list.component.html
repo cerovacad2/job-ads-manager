@@ -1,0 +1,9 @@
+@if(jobAds.length) {
+  <div class="job-ads-list-container">
+    @for(job of jobAds; track job.id) {
+      <div>{{job.title}}</div>
+    }
+  </div>
+} @else {
+  <p>No jobs found. Try adjusting your filters or create a new job.</p>
+}
