@@ -74,7 +74,7 @@ export class JobAdFormComponent {
 
   ngOnInit(): void {
     this.trackIsFormDisabled();
-    if (this.initialValues) {
+    if (this.initialValues) {      
       this.patchInitialValues();
     } else {
       this.addUniqueTitleValidator();
@@ -93,7 +93,11 @@ export class JobAdFormComponent {
   }
 
   private patchInitialValues(): void {
-    this.form.patchValue(this.initialValues!);
+    this.form.patchValue({
+      title: this.initialValues?.title,
+      description: this.initialValues?.description,
+      skills: this.initialValues?.skills
+    });
   }
 
   private addUniqueTitleValidator(): void {

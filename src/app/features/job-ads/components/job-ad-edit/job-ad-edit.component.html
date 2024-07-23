@@ -1,0 +1,9 @@
+<div class="edit-job-ad-container">
+  <h3>Edit job</h3>
+  <app-job-ad-form
+    (submitted)="onEdit($event)"
+    (canceled)="onCancel()"
+    [initialValues]="data"
+    [loading$]="editJobLoading$"
+  ></app-job-ad-form>
+</div>

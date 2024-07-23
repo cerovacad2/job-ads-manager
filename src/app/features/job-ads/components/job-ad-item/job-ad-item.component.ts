@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { JobAd } from '../../models/job-ad.model';
 import { jobAdsActions } from '../../store/job-ads.actions';
+import { JobAdEditComponent } from '../job-ad-edit/job-ad-edit.component';
 import { JobAdItemViewModel } from './job-ad-item.view-model';
 
 @Component({
@@ -20,10 +21,10 @@ import { JobAdItemViewModel } from './job-ad-item.view-model';
 export class JobAdItemComponent {
   @Input({ required: true })
   set jobAd(val: JobAd) {
-    this._jobAd = new JobAdItemViewModel(val);
+    this.jobAdVm = new JobAdItemViewModel(val);
   }
 
-  _jobAd!: JobAdItemViewModel;
+  jobAdVm!: JobAdItemViewModel;
 
   store = inject(Store);
   botomSheet = inject(MatBottomSheet);
@@ -31,7 +32,7 @@ export class JobAdItemComponent {
   onPublish() {
     this.store.dispatch(
       jobAdsActions.updateJobAdStatus({
-        jobAdId: this.jobAd.id,
+        jobAdId: this.jobAdVm.id,
         status: 'published',
       })
     );
@@ -40,15 +41,19 @@ export class JobAdItemComponent {
   onArchive() {
     this.store.dispatch(
       jobAdsActions.updateJobAdStatus({
-        jobAdId: this.jobAd.id,
+        jobAdId: this.jobAdVm.id,
         status: 'archived',
       })
     );
   }
 
   onDelete() {
-    this.store.dispatch(jobAdsActions.deleteJobAd({ jobAdId: this.jobAd.id }));
+    this.store.dispatch(jobAdsActions.deleteJobAd({ jobAdId: this.jobAdVm.id }));
   }
 
-  onEdit() {}
+  onEdit() {
+    this.botomSheet.open(JobAdEditComponent, {
+      data: this.jobAdVm,
+    });
+  }
 }

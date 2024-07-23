@@ -3,8 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { delay, map, Observable } from 'rxjs';
 import { environment } from '../../../../../environment/environment';
 import { generateRandomId } from '../../../shared/utils/utils';
-import { JobAd, JobAdDto, JobAdStatus } from '../models/job-ad.model';
 import { JobAdFormValues } from '../components/job-ad-form/job-ad-form.component';
+import { JobAd, JobAdDto, JobAdStatus } from '../models/job-ad.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ import { JobAdFormValues } from '../components/job-ad-form/job-ad-form.component
 export class JobAdsService {
   private http = inject(HttpClient);
 
-  private apiUrl = `${environment.rootUrl}${environment.jobsEndpoint}`;
+  private apiUrl = `${environment.rootUrl}${environment.jobAdsEndpoint}`;
 
   getJobs(): Observable<JobAdDto[]> {
     return this.http.get<JobAdDto[]>(this.apiUrl).pipe(delay(1000));
@@ -30,7 +30,10 @@ export class JobAdsService {
       .pipe(delay(1000));
   }
 
-  updateJob(data: { jobAdId: string; jobAd: JobAdFormValues }): Observable<JobAdDto> {
+  updateJob(data: {
+    jobAdId: string;
+    jobAd: JobAdFormValues;
+  }): Observable<JobAdDto> {
     return this.http
       .patch<JobAdDto>(`${this.apiUrl}/${data.jobAdId}`, {
         ...data.jobAd,

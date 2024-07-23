@@ -2,28 +2,28 @@
   <mat-card-header>
     <div class="item-title-group">
       <div>
-        <h3>{{ _jobAd.title }}</h3>
+        <h3>{{ jobAdVm.title }}</h3>
       </div>
       <div class="item-title-group_actions">
         <button mat-stroked-button (click)="onDelete()">Delete</button>
-        @if(_jobAd.canPublish) {
+        @if(jobAdVm.canPublish) {
         <button mat-stroked-button (click)="onEdit()">Edit</button>
-        } @if(_jobAd.canPublish) {
+        } @if(jobAdVm.canPublish) {
         <button mat-stroked-button (click)="onPublish()">Publish</button>
-        } @if(_jobAd.canArchive) {
+        } @if(jobAdVm.canArchive) {
         <button mat-stroked-button (click)="onArchive()">Archive</button>
         }
       </div>
     </div>
   </mat-card-header>
   <mat-card-content>
-    <mat-chip>Status: {{ _jobAd.statusLabel }}</mat-chip>
-    <p>Description: {{ _jobAd.description }}</p>
+    <mat-chip>Status: {{ jobAdVm.statusLabel }}</mat-chip>
+    <p>Description: {{ jobAdVm.description }}</p>
 
     <div class="skills-container">
       <p>Skills:</p>
       <mat-chip-set>
-        @for(skill of _jobAd.skills; track skill) {
+        @for(skill of jobAdVm.skills; track skill) {
         <mat-chip>{{ skill }}</mat-chip>
         }
       </mat-chip-set>
