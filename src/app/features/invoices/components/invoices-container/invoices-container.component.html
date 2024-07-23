@@ -1,0 +1,11 @@
+<div class="container">
+  @if(vm$ | async; as vm) { @if(vm.invoicesLoading) {
+  <app-progress-bar></app-progress-bar>
+  } @else {
+  <!-- TODO: create invoice list component -->
+  @if(vm.invoices.length) { @for(invoice of vm.invoices; track invoice.id) {
+  <app-invoice-item [invoice]="invoice"></app-invoice-item>
+  } } @else {
+  <p>No inovices found.</p>
+  } } }
+</div>
