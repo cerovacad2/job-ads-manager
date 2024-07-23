@@ -21,7 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { EMPTY, map, Observable, startWith, tap } from 'rxjs';
 import { ProgressBarComponent } from '../../../../shared/components/progress-bar/progress-bar.component';
 import { JobAd } from '../../models/job-ad.model';
-import { JobAdValidatorsService } from '../../services/job-ad-validators.service';
+import { JobAdValidatorsService } from '../../services/job-ad-validators/job-ad-validators.service';
 
 export interface JobAdFormValues {
   title: string;

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { delay, map, Observable } from 'rxjs';
-import { environment } from '../../../../../environment/environment';
-import { generateRandomId } from '../../../shared/utils/utils';
-import { JobAdFormValues } from '../components/job-ad-form/job-ad-form.component';
-import { JobAd, JobAdDto, JobAdStatus } from '../models/job-ad.model';
+import { environment } from '../../../../../../environment/environment';
+import { generateRandomId } from '../../../../shared/utils/utils';
+import { JobAdFormValues } from '../../components/job-ad-form/job-ad-form.component';
+import { JobAd, JobAdDto, JobAdStatus } from '../../models/job-ad.model';
 
 @Injectable({
   providedIn: 'root',

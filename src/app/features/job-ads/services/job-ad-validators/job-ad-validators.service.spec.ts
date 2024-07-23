@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { JobAdValidatorsService } from './job-ad-validators.service';
 
 describe('JobAdValidatorsService', () => {
