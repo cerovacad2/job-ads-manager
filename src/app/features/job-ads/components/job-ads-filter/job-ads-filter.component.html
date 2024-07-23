@@ -1,0 +1,32 @@
+<form [formGroup]="filterForm" class="form">
+  <mat-form-field class="form-field">
+    <mat-label>Search</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      appAutofocus
+      matInput
+      type="text"
+      formControlName="search"
+      placeholder="Search title, description or skill"
+    />
+    @if (filterForm.controls.search.value) {
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="filterForm.controls.search.reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="form-field">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      @for (status of statuses; track status) {
+      <mat-option [value]="status.value">{{ status.viewValue }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</form>

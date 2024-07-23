@@ -1,1 +1,9 @@
-<p>job-ads-container works!</p>
+<div class="job-ads-container">
+  <div class="create-button-container">
+    <button mat-stroked-button (click)="onCreate()">Create new job</button>
+  </div>
+
+  <app-job-ads-filter
+    (filterChanged)="onFilterChanged($event)"
+  ></app-job-ads-filter>
+</div>
