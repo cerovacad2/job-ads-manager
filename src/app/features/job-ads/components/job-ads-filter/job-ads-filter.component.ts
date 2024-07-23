@@ -19,6 +19,7 @@ import {
   startWith,
   tap,
 } from 'rxjs';
+import { AutofocusDirective } from '../../../../shared/directives/autofocus/autofocus.directive';
 import { JobAdStatus } from '../../models/job-ad.model';
 
 export interface JobAdsFilter {
@@ -40,6 +41,7 @@ interface JobAdStatusOption {
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
+    AutofocusDirective,
   ],
   templateUrl: './job-ads-filter.component.html',
   styleUrl: './job-ads-filter.component.scss',

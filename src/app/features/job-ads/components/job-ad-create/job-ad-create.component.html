@@ -1,0 +1,8 @@
+<div class="create-job-ad-container">
+  <h3>Create Job Ad</h3>
+  <app-job-ad-form
+    (submitted)="onCreate($event)"
+    (canceled)="onCancel()"
+    [loading$]="createJobLoading$"
+  ></app-job-ad-form>
+</div>

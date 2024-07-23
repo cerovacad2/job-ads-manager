@@ -1,0 +1,85 @@
+<form [formGroup]="form" class="form">
+  @if(loading$ | async) {
+  <app-progress-bar></app-progress-bar>
+  }
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input
+      appAutofocus
+      matInput
+      type="text"
+      formControlName="title"
+      placeholder="Job position"
+    />
+    @if(form.controls.title.getError('required')) {
+    <mat-error>This field is required</mat-error>
+    } @if(form.controls.title.getError('titleNotUnique')) {
+    <mat-error>This job title already exists</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      placeholder="Awsome description..."
+      formControlName="description"
+    ></textarea>
+    @if(form.controls.description.getError('required')) {
+    <mat-error>This field is required</mat-error>
+    } @if(form.controls.description.getError('minlength')) {
+    <mat-error
+      >Minimum number of characters is
+      {{
+        form.controls.description.getError("minlength")["requiredLength"]
+      }}</mat-error
+    >
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Skills</mat-label>
+    <mat-chip-grid #chipGrid formControlName="skills">
+      @for(skill of form.get('skills')?.value; track skill) {
+      <mat-chip-row (removed)="removeSkill(skill)">
+        {{ skill }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <input
+      placeholder="New skill..."
+      [matChipInputFor]="chipGrid"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="addSkill($event)"
+    />
+    @if(form.controls.skills.getError('required')) {
+    <mat-error>This field is required</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="form-actions">
+    <button
+      class="form-actions-button"
+      mat-raised-button
+      color="primary"
+      (click)="onCancel()"
+      [disabled]="loading$ | async"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="form-actions-button"
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="loading$ | async"
+      type="submit"
+    >
+      Submit
+    </button>
+  </div>
+</form>

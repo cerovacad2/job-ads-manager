@@ -1,7 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { ProgressBarComponent } from '../../../../shared/components/progress-bar/progress-bar.component';
+import { JobAdCreateComponent } from '../job-ad-create/job-ad-create.component';
 import {
   JobAdsFilter,
   JobAdsFilterComponent,
@@ -24,6 +26,7 @@ import { JobAdContainerStore } from './job-ads-continer.store';
 })
 export class JobAdsContainerComponent implements OnInit {
   private componentStore = inject(JobAdContainerStore);
+  private botomSheet = inject(MatBottomSheet);
 
   readonly vm$ = this.componentStore.vm$;
 
@@ -35,5 +38,7 @@ export class JobAdsContainerComponent implements OnInit {
     this.componentStore.setFilterCriteria(filters);
   }
 
-  onCreate() {}
+  onCreate() {
+    this.botomSheet.open(JobAdCreateComponent);
+  }
 }
